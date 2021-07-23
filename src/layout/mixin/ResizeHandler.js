@@ -1,5 +1,4 @@
 import store from '@/store'
-import { Message } from 'element-ui'
 
 const { body } = document
 const WIDTH = 992 // refer to Bootstrap's responsive design
@@ -7,7 +6,6 @@ const WIDTH = 992 // refer to Bootstrap's responsive design
 export default {
   watch: {
     $route(route) {
-      Message.error('route这里留着下次再试试,等有了路由结构再回来')
       if (this.device === 'mobile' && this.sidebar.opened) {
         store.commit('app/CLOSE_SIDEBAR', false)
       }
