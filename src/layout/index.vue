@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ hideSidebar: isHide }" class="app-wrapper mobile">
+  <div :class="{ hideSidebar: isHide, mobile: isMobile }" class="app-wrapper">
     <div class="sidebar-container">
       sidebar
     </div>
@@ -15,12 +15,27 @@
 </template>
 
 <script>
-import ResizeHandler from './mixin/ResizeHandler'
 export default {
-  mixins: [ResizeHandler],
   data() {
     return {
-      isHide: false
+      isHide: false,
+      isMobile: false
+    }
+  },
+  beforeMount() {
+    window.addEventListener('resize', this.$_resizeHandler)
+  },
+  mounted() {
+    this.isMobile = this.$_isMobile()
+  },
+  methods: {
+    $_isMobile() {
+      return document.body.getBoundingClientRect().width < 992
+    },
+    $_resizeHandler() {
+      if (!document.hidden) {
+        this.isMobile = this.$_isMobile()
+      }
     }
   }
 }
