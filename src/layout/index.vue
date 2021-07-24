@@ -1,10 +1,11 @@
 <template>
-  <div :class="{ hideSidebar: isHide, mobile: isMobile }" class="app-wrapper">
+  <div :class="{ hideSidebar: isHide, mobile: isMobile, withoutAnimation }" class="app-wrapper">
+    <div v-if="isMobile && !isHide" class="drawer_bg" />
     <div class="sidebar-container">
       sidebar
     </div>
     <div class="main-container">
-      <div class="navbar" @click="isHide=!isHide">
+      <div class="navbar" @click="handleClick">
         navbar
       </div>
       <div class="appmain">
@@ -19,7 +20,20 @@ export default {
   data() {
     return {
       isHide: false,
-      isMobile: false
+      isMobile: false,
+      withoutAnimation: false
+    }
+  },
+  watch: {
+    isMobile(isMobile) {
+      if (isMobile) {
+        // 从电脑端变为手机端
+        this.withoutAnimation = true
+        this.isHide = true
+      } else {
+        // 从手机端变为电脑端
+        this.withoutAnimation = true
+      }
     }
   },
   beforeMount() {
@@ -29,6 +43,10 @@ export default {
     this.isMobile = this.$_isMobile()
   },
   methods: {
+    handleClick() {
+      this.isHide = !this.isHide
+      this.withoutAnimation = false
+    },
     $_isMobile() {
       return document.body.getBoundingClientRect().width < 992
     },
@@ -77,6 +95,7 @@ export default {
   .mobile{
     .sidebar-container{
       width: $sideBarWidth;
+      transition: transform .28s;
     }
     .main-container{
       margin-left: 0;
@@ -86,5 +105,19 @@ export default {
     .sidebar-container{
       transform: translateX(-$sideBarWidth);
     }
+  }
+  .withoutAnimation{
+    .sidebar-container,
+    .main-container{
+      transition: none;
+    }
+  }
+
+  .drawer_bg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.25);
+    pointer-events: none;
   }
 </style>
