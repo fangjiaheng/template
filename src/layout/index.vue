@@ -1,6 +1,6 @@
 <template>
-  <div :class="{ hideSidebar: isHide, mobile: isMobile, withoutAnimation }" class="app-wrapper">
-    <div v-if="isMobile && !isHide" class="drawer_bg" />
+  <div :class="classObj" class="app-wrapper">
+    <div v-if="device === 'mobile' && sidebar.opened" class="drawer_bg" />
     <div class="sidebar-container">
       sidebar
     </div>
@@ -16,44 +16,27 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import ResizeHandler from './mixin/ResizeHandler'
+
 export default {
-  data() {
-    return {
-      isHide: false,
-      isMobile: false,
-      withoutAnimation: false
-    }
-  },
-  watch: {
-    isMobile(isMobile) {
-      if (isMobile) {
-        // 从电脑端变为手机端
-        this.withoutAnimation = true
-        this.isHide = true
-      } else {
-        // 从手机端变为电脑端
-        this.withoutAnimation = true
+  mixins: [ResizeHandler],
+  computed: {
+    ...mapState({
+      sidebar: state => state.app.sidebar,
+      device: state => state.app.device
+    }),
+    classObj() {
+      return {
+        hideSidebar: !this.sidebar.opened,
+        withoutAnimation: this.sidebar.withoutAnimation,
+        mobile: this.device === 'mobile'
       }
     }
-  },
-  beforeMount() {
-    window.addEventListener('resize', this.$_resizeHandler)
-  },
-  mounted() {
-    this.isMobile = this.$_isMobile()
   },
   methods: {
     handleClick() {
-      this.isHide = !this.isHide
-      this.withoutAnimation = false
-    },
-    $_isMobile() {
-      return document.body.getBoundingClientRect().width < 992
-    },
-    $_resizeHandler() {
-      if (!document.hidden) {
-        this.isMobile = this.$_isMobile()
-      }
+      this.$store.commit('app/TOGGLE_SIDEBAR')
     }
   }
 }
