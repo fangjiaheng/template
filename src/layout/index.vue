@@ -1,16 +1,13 @@
 <template>
   <div :class="classObj" class="app-wrapper">
     <div v-if="device === 'mobile' && sidebar.opened" class="drawer_bg" />
-    <div class="sidebar-container">
-      sidebar
-    </div>
+    <!-- 侧边栏 -->
+    <sidebar class="sidebar-container" />
     <div class="main-container">
       <div class="navbar" @click="handleClick">
         navbar
       </div>
-      <div class="appmain">
-        appmain
-      </div>
+      <app-main />
     </div>
   </div>
 </template>
@@ -18,8 +15,15 @@
 <script>
 import { mapState } from 'vuex'
 import ResizeHandler from './mixin/ResizeHandler'
+import Sidebar from './components/Sidebar/index.vue'
+import AppMain from './components/AppMain.vue'
 
 export default {
+  name: 'Layout',
+  components: {
+    Sidebar,
+    AppMain
+  },
   mixins: [ResizeHandler],
   computed: {
     ...mapState({
@@ -53,6 +57,7 @@ export default {
       height: 100%;
       background-color: greenyellow;
       transition: width .28s;
+      overflow: hidden;
     }
     .main-container{
       margin-left: $sideBarWidth;
@@ -61,10 +66,10 @@ export default {
         height: 50px;
         background-color: aqua;
       }
-      .appmain{
-        min-height: calc(100vh - 50px);
-        background-color: yellow;
-      }
+      // .appmain{
+      //   min-height: calc(100vh - 50px);
+      //   background-color: yellow;
+      // }
     }
   }
   .hideSidebar{
