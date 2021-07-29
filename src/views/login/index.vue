@@ -34,11 +34,11 @@ export default {
   }
 </style>
 
-// <style lang="scss">
-//   .el-scrollbar .el-scrollbar__wrap{
-//     overflow-x: hidden;
-//   }
+<style lang="scss">
+  // .el-scrollbar .el-scrollbar__wrap{
+  //   overflow-x: hidden;
+  // }
 //   .is-horizontal{
 //     display: none;
 //   }
-// </style>
+</style>

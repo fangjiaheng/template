@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sidebar-logo">
     LOGO
   </div>
 </template>
@@ -10,6 +10,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+  .sidebar-logo{
+    height: 50px;
+  }
 </style>
