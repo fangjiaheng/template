@@ -4,9 +4,7 @@
     <!-- 侧边栏 -->
     <sidebar class="sidebar-container" />
     <div class="main-container">
-      <div class="navbar" @click="handleClick">
-        navbar
-      </div>
+      <navbar />
       <app-main />
     </div>
   </div>
@@ -17,12 +15,14 @@ import { mapState } from 'vuex'
 import ResizeHandler from './mixin/ResizeHandler'
 import Sidebar from './components/Sidebar/index.vue'
 import AppMain from './components/AppMain.vue'
+import Navbar from './components/Navbar/index.vue'
 
 export default {
   name: 'Layout',
   components: {
     Sidebar,
-    AppMain
+    AppMain,
+    Navbar
   },
   mixins: [ResizeHandler],
   computed: {
@@ -62,10 +62,10 @@ export default {
     .main-container{
       margin-left: $sideBarWidth;
       transition: margin-left .28s;
-      .navbar{
-        height: 50px;
-        background-color: aqua;
-      }
+      // .navbar{
+      //   height: 50px;
+      //   background-color: aqua;
+      // }
       // .appmain{
       //   min-height: calc(100vh - 50px);
       //   background-color: yellow;
